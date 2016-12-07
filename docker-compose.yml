@@ -1,0 +1,11 @@
+version: '2.1'
+services:
+  pgdb:
+    image: postgres:9.6-alpine
+    volumes:
+      - pgdb_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+volumes:
+  pgdb_data:
+    driver: local
