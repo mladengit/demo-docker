@@ -12,6 +12,17 @@ services:
       DATABASE_URL: postgresql://pgdb:5432/demodocker_development
       DEMO_DOCKER_REDIS_URL: redis://redis:6379/1
 
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    depends_on:
+      - pgdb
+      - redis
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure:3
+
   pgdb:
     image: postgres:9.6-alpine
     volumes:
