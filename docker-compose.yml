@@ -5,3 +5,23 @@ services:
     build: .
     ports:
       - 3000
+    depends_on:
+      - pgdb
+      - redis
+    environment:
+      DATABASE_URL: postgresql://pgdb:5432/demodocker_development
+      DEMO_DOCKER_REDIS_URL: redis://redis:6379/1
+
+  pgdb:
+    image: postgres:9.6-alpine
+    volumes:
+      - pgdb_data:/var/lib/postgresql/data
+    ports:
+      - 5432
+
+  redis:
+    image: redis:3.2-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379
