@@ -1,31 +1,46 @@
 version: '2.0'
 services:
+
+  app:
+    build: .
+    ports:
+      - 3000
+    depends_on:
+      - pgdb
+      - redis
+      - worker
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    depends_on:
+      - pgdb
+      - redis
+
   pgdb:
     image: postgres:9.6-alpine
     volumes:
       - pgdb_data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5432
+
   redis:
     image: redis:3.2-alpine
     volumes:
       - redis_data:/data
     ports:
-      - 6379:6379
-  worker:
-    image: demo-docker:master
-    depends_on:
-      - pgdb
-      - redis
-    command: bundle exec rake sidekiq:start
-  app:
-    image: demo-docker:master
+      - 6379
+
+  lb:
+    image: dockercloud/haproxy
+    links:
+      - app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - 3000:3000
-    depends_on:
-      - pgdb
-      - redis
-      - worker
+      - 80:80
+
 volumes:
   pgdb_data:
     driver: local
