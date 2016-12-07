@@ -18,7 +18,9 @@ Setup:
 
 * Database creation
 
+  ```
   rake db:create
+  ```
 
 * Database initialization
 
