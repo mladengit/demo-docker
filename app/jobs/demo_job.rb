@@ -1,7 +1,8 @@
 class DemoJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
-    # Do something later
+  def perform
+    sleep 10
+    Rails.logger.info 'DemoJob exited'
   end
 end

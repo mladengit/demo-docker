@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2.0'
 services:
   pgdb:
     image: postgres:9.6-alpine
@@ -12,6 +12,12 @@ services:
       - redis_data:/data
     ports:
       - 6379:6379
+  worker:
+    image: demo-docker:master
+    depends_on:
+      - pgdb
+      - redis
+    command: bundle exec rake sidekiq:start
   app:
     image: demo-docker:master
     ports:
@@ -19,6 +25,7 @@ services:
     depends_on:
       - pgdb
       - redis
+      - worker
 volumes:
   pgdb_data:
     driver: local
