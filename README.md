@@ -2,10 +2,7 @@
 
 ## demo-docker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+Setup:
 
 * Ruby version
 
@@ -15,6 +12,8 @@ Things you may want to cover:
 
 * Database creation
 
+  rake db:setup
+
 * Database initialization
 
 * How to run the test suite
@@ -22,5 +21,9 @@ Things you may want to cover:
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
+
+  Build the app image
+
+  docker build . -t demo-docker:<BRANCH_NAME>
 
 * ...
